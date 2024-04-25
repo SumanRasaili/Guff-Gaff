@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,18 +23,26 @@ class AuthRepository {
 
     try {
       await auth.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
         verificationCompleted: (phoneAuthCredential) async {
+          BotToast.closeAllLoading();
           await auth.signInWithCredential(phoneAuthCredential);
         },
         verificationFailed: (error) {
+          BotToast.closeAllLoading();
           throw Exception(error.message);
         },
         codeSent: (verificationId, forceResendingToken) async {
-          context.push(OtpScreen.routeName);
+          BotToast.closeAllLoading();
+          context.push(OtpScreen.routeName, extra: verificationId);
         },
-        codeAutoRetrievalTimeout: (verificationId) {},
+        codeAutoRetrievalTimeout: (verificationId) {
+          BotToast.closeAllLoading();
+          // context.push(OtpScreen.routeName, extra: verificationId);
+        },
       );
     } on FirebaseAuthException catch (e) {
+      BotToast.closeAllLoading();
       CustomBotToast.text(e.message.toString(), isSuccess: false);
     }
   }

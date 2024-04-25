@@ -4,7 +4,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:guffgaff/common/widgets/custom_button.dart';
 import 'package:guffgaff/config/app_colors.dart';
+import 'package:guffgaff/features/auth/controller/auth_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../../common/utils/utils.dart';
 
 class LoginScreen extends StatefulHookConsumerWidget {
   static const String routeName = "/login-screen";
@@ -69,7 +72,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                       SizedBox(
                         width: size.width * 0.7,
-                        child: TextField(
+                        child: TextFormField(
+                          validator: (v) {
+                            if (v!.isEmpty) {
+                              return "Please enter your number";
+                            }
+                            return null;
+                          },
                           controller: phoneController,
                           decoration:
                               const InputDecoration(hintText: "Phone number"),
@@ -79,7 +88,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ],
             ),
             SizedBox(
-                width: 100, child: CustomButton(text: "NEXT", onPressed: () {}))
+                width: 100,
+                child: CustomButton(
+                    text: "NEXT",
+                    onPressed: () {
+                      final phoneNo = phoneController.text.trim();
+                      print("ph no is  +${country.value.phoneCode}$phoneNo");
+                      if (country.value.phoneCode.isNotEmpty) {
+                        ref.read(authControllerProvider).signInWithPhone(
+                            context: context,
+                            phoneNumber: "+${country.value.phoneCode}$phoneNo");
+                      } else {
+                        showSnackBar(
+                            context: context,
+                            content: "Fill out all the fields");
+                      }
+                    }))
           ],
         ),
       ),

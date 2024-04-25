@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: AppRoutes.router,
-       builder: BotToastInit(),
+      builder: BotToastInit(),
       // home: const LandingScreen(),
       // home: const ResponsiveLayout(
       //     mobileScreenLayout: MobileLayoutScreen(),
@@ -27,11 +27,9 @@ class MyApp extends StatelessWidget {
       // routerConfig: AppRoutes.router,
       title: 'Guff Gaff',
       debugShowCheckedModeBanner: false,
-      
+
       theme: ThemeData.dark().copyWith(
-        appBarTheme: const AppBarTheme(
-        
-          color: appBarColor),
+        appBarTheme: const AppBarTheme(color: appBarColor),
         scaffoldBackgroundColor: backgroundColor,
       ),
     );
