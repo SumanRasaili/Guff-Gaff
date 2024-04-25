@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:guffgaff/firebase_options.dart';
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: AppRoutes.router,
+       builder: BotToastInit(),
       // home: const LandingScreen(),
       // home: const ResponsiveLayout(
       //     mobileScreenLayout: MobileLayoutScreen(),
@@ -25,6 +27,7 @@ class MyApp extends StatelessWidget {
       // routerConfig: AppRoutes.router,
       title: 'Guff Gaff',
       debugShowCheckedModeBanner: false,
+      
       theme: ThemeData.dark().copyWith(
         appBarTheme: const AppBarTheme(
         

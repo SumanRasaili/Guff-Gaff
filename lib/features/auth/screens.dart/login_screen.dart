@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -22,8 +23,10 @@ class LoginScreen extends StatefulHookConsumerWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
+    final country = useState<Country>(Country.worldWide);
     final size = MediaQuery.of(context).size;
     final phoneController = useTextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -42,7 +45,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   height: 10,
                 ),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showCountryPicker(
+                          context: context,
+                          onSelect: (Country countries) {
+                            country.value = countries;
+                            print(country.value.phoneCode);
+                          });
+                    },
                     child: const Center(
                       child: Text("Pick Country"),
                     )),
@@ -52,10 +62,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 Row(
                     // crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text(
-                        "+977-",
-                        style: TextStyle(fontSize: 14),
-                      ),
+                      if (country.value.phoneCode.isNotEmpty)
+                        Text("+${country.value.phoneCode}"),
                       const SizedBox(
                         width: 10,
                       ),
