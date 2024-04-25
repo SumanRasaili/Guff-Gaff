@@ -1,13 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:guffgaff/features/landing/landing_screen.dart';
 import 'package:guffgaff/firebase_options.dart';
-import 'package:guffgaff/screens/screens.dart';
-import 'package:guffgaff/utils/responsive_layout.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'config/config.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const ProviderScope(child: MyApp()));
@@ -19,9 +18,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const ResponsiveLayout(
-          mobileScreenLayout: MobileLayoutScreen(),
-          webScreenLayout: WebLayoutScreen()),
+      home: const LandingScreen(),
+      // home: const ResponsiveLayout(
+      //     mobileScreenLayout: MobileLayoutScreen(),
+      //     webScreenLayout: WebLayoutScreen()),
       // routerConfig: AppRoutes.router,
       title: 'Guff Gaff',
       debugShowCheckedModeBanner: false,
