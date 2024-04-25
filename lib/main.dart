@@ -1,11 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:guffgaff/firebase_options.dart';
 import 'package:guffgaff/screens/screens.dart';
 import 'package:guffgaff/utils/responsive_layout.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'config/config.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
