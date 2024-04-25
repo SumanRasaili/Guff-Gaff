@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:guffgaff/common/widgets/custom_button.dart';
 import 'package:guffgaff/config/config.dart';
+import 'package:guffgaff/features/auth/screens.dart/login_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class LandingScreen extends ConsumerWidget {
+  static const String routeName = "/landing-screen";
   const LandingScreen({super.key});
+  static GoRoute route() {
+    return GoRoute(
+      path: routeName,
+      builder: (context, state) => const LandingScreen(),
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,7 +56,9 @@ class LandingScreen extends ConsumerWidget {
             width: size.width * 0.80,
             child: CustomButton(
               text: "AGREE & CONTINUE",
-              onPressed: () {},
+              onPressed: () {
+                context.push(LoginScreen.routeName);
+              },
             ))
       ],
     )));

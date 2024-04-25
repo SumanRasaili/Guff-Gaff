@@ -17,8 +17,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const LandingScreen(),
+    return MaterialApp.router(
+      routerConfig: AppRoutes.router,
+      // home: const LandingScreen(),
       // home: const ResponsiveLayout(
       //     mobileScreenLayout: MobileLayoutScreen(),
       //     webScreenLayout: WebLayoutScreen()),
