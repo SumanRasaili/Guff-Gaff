@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:guffgaff/features/landing/landing_screen.dart';
 import 'package:guffgaff/firebase_options.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -27,6 +26,9 @@ class MyApp extends StatelessWidget {
       title: 'Guff Gaff',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
+        appBarTheme: const AppBarTheme(
+        
+          color: appBarColor),
         scaffoldBackgroundColor: backgroundColor,
       ),
     );
