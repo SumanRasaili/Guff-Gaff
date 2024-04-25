@@ -8,7 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:guffgaff/common/utils/bot_toast.dart';
 import 'package:guffgaff/features/auth/screens.dart/otp_screen.dart';
-import 'package:guffgaff/features/auth/screens.dart/user_info.dart';
+import 'package:guffgaff/features/auth/screens.dart/user_info_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {

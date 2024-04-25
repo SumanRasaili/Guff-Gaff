@@ -7,7 +7,7 @@ import 'package:guffgaff/features/auth/screens.dart/otp_screen.dart';
 import 'package:guffgaff/features/landing/landing_screen.dart';
 import 'package:guffgaff/splash_screen.dart';
 
-import '../features/auth/screens.dart/user_info.dart';
+import '../features/auth/screens.dart/user_info_screen.dart';
 
 class AppRoutes {
   static final router = GoRouter(
