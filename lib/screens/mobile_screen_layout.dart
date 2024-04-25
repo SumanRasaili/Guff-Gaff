@@ -4,7 +4,7 @@ import '../config/app_colors.dart';
 import '../widgets/contacts_list.dart';
 
 class MobileLayoutScreen extends StatelessWidget {
-  const MobileLayoutScreen({Key? key}) : super(key: key);
+  const MobileLayoutScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class MobileLayoutScreen extends StatelessWidget {
           backgroundColor: appBarColor,
           centerTitle: false,
           title: const Text(
-            'WhatsApp',
+            'G',
             style: TextStyle(
               fontSize: 20,
               color: Colors.grey,
