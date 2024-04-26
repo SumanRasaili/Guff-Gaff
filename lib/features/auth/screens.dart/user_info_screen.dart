@@ -43,14 +43,14 @@ class _UserInfoScreenState extends ConsumerState<UserInfoScreen> {
                 imageFile.value == null
                     ? const CircleAvatar(
                         radius: 64,
-                        backgroundColor: Colors.grey,
+                        // backgroundColor: Colors.grey,
                         backgroundImage: NetworkImage(
                           'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
                         ),
                       )
                     : CircleAvatar(
                         radius: 64,
-                        backgroundColor: Colors.grey,
+                        // backgroundColor: Colors.grey,
                         backgroundImage: FileImage(imageFile.value!)),
                 Positioned(
                     left: 80,
@@ -66,7 +66,7 @@ class _UserInfoScreenState extends ConsumerState<UserInfoScreen> {
             Row(
               children: [
                 Container(
-                  width: size.width * 0.9,
+                  width: size.width * 0.8,
                   padding: const EdgeInsets.all(20),
                   child: TextField(
                     controller: nameController,

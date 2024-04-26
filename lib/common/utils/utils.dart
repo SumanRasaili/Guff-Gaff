@@ -26,3 +26,6 @@ Future<File?> pickImageFromGallery({required BuildContext context}) async {
   }
   return image;
 }
+
+
+

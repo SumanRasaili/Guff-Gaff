@@ -1,11 +1,15 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:io';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:guffgaff/common/repositories/common_firebase_reposorities.dart';
 import 'package:guffgaff/common/utils/bot_toast.dart';
 import 'package:guffgaff/features/auth/screens.dart/otp_screen.dart';
 import 'package:guffgaff/features/auth/screens.dart/user_info_screen.dart';
@@ -62,6 +66,30 @@ class AuthRepository {
       await auth.signInWithCredential(credential);
       BotToast.closeAllLoading();
       context.go(UserInfoScreen.routeName);
+    } on FirebaseAuthException catch (e) {
+      BotToast.closeAllLoading();
+      CustomBotToast.text(e.message.toString(), isSuccess: false);
+    }
+  }
+
+  void saveUserDataToFirestore(
+      {required String name,
+      required BuildContext context,
+      required File? profilePic,
+      required ProviderRef ref}) async {
+    try {
+      CustomBotToast.loading();
+      String uid = auth.currentUser!.uid;
+      String photoUrl =
+          'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60';
+      if (profilePic != null) {
+        photoUrl = await ref
+            .read(commonFirebaseStorageProvider)
+            .storeFileToFirebase(ref: "ProfilePic/$uid", file: profilePic);
+      }
+
+
+      
     } on FirebaseAuthException catch (e) {
       BotToast.closeAllLoading();
       CustomBotToast.text(e.message.toString(), isSuccess: false);
