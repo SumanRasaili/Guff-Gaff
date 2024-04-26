@@ -27,6 +27,16 @@ class AuthRepository {
   final FirebaseFirestore firestore;
   AuthRepository({required this.auth, required this.firestore});
 
+  Future<UserModel?> getCurrentUserData() async {
+    UserModel? user;
+    var userData =
+        await firestore.collection("users").doc(auth.currentUser?.uid).get();
+    if (userData.data() != null) {
+      user = UserModel.fromMap(userData.data() as Map<String, dynamic>);
+    }
+    return user;
+  }
+
   void signInWithPhone(
       {required BuildContext context, required String phoneNumber}) async {
     CustomBotToast.loading();
@@ -103,8 +113,8 @@ class AuthRepository {
           .doc(uid)
           .set(user.toMap())
           .then((value) {
-        BotToast.closeAllLoading();
         context.go(MobileLayoutScreen.routeName);
+        BotToast.closeAllLoading();
       });
     } on FirebaseAuthException catch (e) {
       print("Error is $e");
