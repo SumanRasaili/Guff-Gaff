@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:guffgaff/common/widgets/error_screen.dart';
+import 'package:guffgaff/config/app_colors.dart';
 import 'package:guffgaff/features/auth/controller/auth_controller.dart';
 import 'package:guffgaff/features/landing/landing_screen.dart';
 import 'package:guffgaff/screens/mobile_screen_layout.dart';
@@ -32,13 +32,24 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(
-              child: Text("Guff Gaff"),
+              child: Image.asset(
+                "assets/images/bg.png",
+                color: tabColor,
+              ),
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            const Text(
+              "Welcome to Guff Gaff Guyss ",
+              style: TextStyle(fontSize: 25),
+              textAlign: TextAlign.center,
             )
           ],
         ),
