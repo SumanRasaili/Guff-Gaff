@@ -7,7 +7,14 @@ import 'package:guffgaff/common/utils/utils.dart';
 import 'package:guffgaff/models/chat_contact_model.dart';
 import 'package:guffgaff/models/messages.dart';
 import 'package:guffgaff/models/user_models.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
+
+final chatRepositoryProvider = Provider<ChatRepository>((ref) {
+  return ChatRepository(
+      firebaseFirestore: FirebaseFirestore.instance,
+      auth: FirebaseAuth.instance);
+});
 
 class ChatRepository {
   final FirebaseFirestore firebaseFirestore;
