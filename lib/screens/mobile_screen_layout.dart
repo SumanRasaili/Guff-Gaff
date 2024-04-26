@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:guffgaff/features/select_contacts/screens/select_contacts_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../config/app_colors.dart';
@@ -7,9 +8,13 @@ import '../widgets/contacts_list.dart';
 
 class MobileLayoutScreen extends ConsumerWidget {
   static const String routeName = "/mobile-screen-layout";
-  static GoRoute route(){
-    return GoRoute(path: routeName,builder: (context, state) => MobileLayoutScreen(),);
+  static GoRoute route() {
+    return GoRoute(
+      path: routeName,
+      builder: (context, state) => const MobileLayoutScreen(),
+    );
   }
+
   const MobileLayoutScreen({super.key});
 
   @override
@@ -62,7 +67,9 @@ class MobileLayoutScreen extends ConsumerWidget {
         ),
         body: const ContactsList(),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            context.push(SelectContactsScreen.routeName);
+          },
           backgroundColor: tabColor,
           child: const Icon(
             Icons.comment,

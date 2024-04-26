@@ -5,6 +5,7 @@ import 'package:guffgaff/common/widgets/error_screen.dart';
 import 'package:guffgaff/features/auth/screens.dart/login_screen.dart';
 import 'package:guffgaff/features/auth/screens.dart/otp_screen.dart';
 import 'package:guffgaff/features/landing/landing_screen.dart';
+import 'package:guffgaff/features/select_contacts/screens/select_contacts_screen.dart';
 import 'package:guffgaff/screens/screens.dart';
 import 'package:guffgaff/splash_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -23,7 +24,8 @@ class AppRoutes {
       LoginScreen.route(),
       OtpScreen.route(),
       UserInfoScreen.route(),
-      MobileLayoutScreen.route()
+      MobileLayoutScreen.route(),
+      SelectContactsScreen.route(),
     ],
     // redirect: (context, state) {
 
