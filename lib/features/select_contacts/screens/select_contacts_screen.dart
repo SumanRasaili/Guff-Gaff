@@ -42,17 +42,23 @@ class SelectContactsScreen extends ConsumerWidget {
               itemBuilder: (context, index) {
                 final contact = contactList[index];
 
-                return Padding(
-                  padding: const EdgeInsets.only(bottom:  8.0),
-                  child: ListTile(
-                    leading: contact.photo == null
-                        ? null
-                        : CircleAvatar(
-                            radius: 30,
-                            backgroundImage: MemoryImage(contact.photo!)),
-                    title: Text(
-                      contact.displayName,
-                      style: const TextStyle(fontSize: 18),
+                return InkWell(
+                  onTap: () {
+                    ref.read(selectContactProvider).selectContact(
+                        context: context, selectedContact: contact);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: ListTile(
+                      leading: contact.photo == null
+                          ? null
+                          : CircleAvatar(
+                              radius: 30,
+                              backgroundImage: MemoryImage(contact.photo!)),
+                      title: Text(
+                        contact.displayName,
+                        style: const TextStyle(fontSize: 18),
+                      ),
                     ),
                   ),
                 );

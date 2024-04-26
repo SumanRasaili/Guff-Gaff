@@ -26,6 +26,7 @@ class AppRoutes {
       UserInfoScreen.route(),
       MobileLayoutScreen.route(),
       SelectContactsScreen.route(),
+      MobileChatScreen.route()
     ],
     // redirect: (context, state) {
 
