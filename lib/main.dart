@@ -1,14 +1,19 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:guffgaff/firebase_options.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'config/config.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await FirebaseAppCheck.instance.activate(
+    androidProvider: AndroidProvider.playIntegrity,
+    appleProvider: AppleProvider.appAttest,
+    webProvider: ReCaptchaV3Provider('recaptcha-v3-site-key'),
+  );
   runApp(const ProviderScope(child: MyApp()));
 }
 

@@ -88,6 +88,7 @@ class AuthRepository {
         photoUrl = await ref
             .read(commonFirebaseStorageProvider)
             .storeFileToFirebase(ref: "ProfilePic/$uid", file: profilePic);
+        print("PhotoUrl is $photoUrl");
       }
       final user = UserModel(
           name: name,
@@ -96,7 +97,7 @@ class AuthRepository {
           isOnline: true,
           groupId: [],
           phoneNumber: auth.currentUser!.uid);
-
+      print("Sending user data is $user");
       await firestore
           .collection("users")
           .doc(uid)
@@ -106,6 +107,8 @@ class AuthRepository {
         context.go(MobileLayoutScreen.routeName);
       });
     } on FirebaseAuthException catch (e) {
+      print("Error is $e");
+      print("stackTrace Error is ${e.stackTrace}");
       BotToast.closeAllLoading();
       CustomBotToast.text(e.message.toString(), isSuccess: false);
     }
