@@ -41,14 +41,20 @@ class SelectContactsScreen extends ConsumerWidget {
               itemCount: contactList.length,
               itemBuilder: (context, index) {
                 final contact = contactList[index];
-             
-                return ListTile(
-                  leading: contact.photo == null
-                      ? null
-                      : CircleAvatar(
-                          radius: 30,
-                          backgroundImage: MemoryImage(contact.photo!)),
-                  title: Text(contact.displayName),
+
+                return Padding(
+                  padding: const EdgeInsets.only(bottom:  8.0),
+                  child: ListTile(
+                    leading: contact.photo == null
+                        ? null
+                        : CircleAvatar(
+                            radius: 30,
+                            backgroundImage: MemoryImage(contact.photo!)),
+                    title: Text(
+                      contact.displayName,
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                  ),
                 );
               }),
         );
