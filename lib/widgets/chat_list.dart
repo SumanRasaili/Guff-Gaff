@@ -3,7 +3,7 @@ import 'package:guffgaff/info.dart';
 import 'package:guffgaff/widgets/widgets.dart';
 
 class ChatList extends StatelessWidget {
-  const ChatList({Key? key}) : super(key: key);
+  const ChatList({super.key});
 
   @override
   Widget build(BuildContext context) {
