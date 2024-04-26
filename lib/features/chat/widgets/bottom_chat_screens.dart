@@ -1,19 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../config/config.dart';
 
-class BottomChatField extends ConsumerWidget {
+class BottomChatField extends HookConsumerWidget {
   const BottomChatField({
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final messageController = useTextEditingController();
+    final isShowSendButton = useState<bool>(false);
     return Row(
       children: [
         Expanded(
-          child: TextField(
+          child: TextFormField(
+            controller: messageController,
+            onChanged: (val) {
+              if (val.isNotEmpty) {
+                isShowSendButton.value = true;
+              } else {
+                isShowSendButton.value = false;
+              }
+            },
             decoration: InputDecoration(
               filled: true,
               fillColor: mobileChatBoxColor,
@@ -72,16 +83,20 @@ class BottomChatField extends ConsumerWidget {
             ),
           ),
         ),
-        const Padding(
-            padding: EdgeInsets.only(bottom: 8, right: 2, left: 2),
+        Padding(
+            padding: const EdgeInsets.only(bottom: 8, right: 2, left: 2),
             child: CircleAvatar(
-              radius: 25,
-              backgroundColor: tabColor,
-              child: Icon(
-                Icons.send,
-                color: Colors.white,
-              ),
-            ))
+                radius: 25,
+                backgroundColor: tabColor,
+                child: isShowSendButton.value
+                    ? const Icon(
+                        Icons.send,
+                        color: Colors.white,
+                      )
+                    : const Icon(
+                        Icons.mic,
+                        color: Colors.white,
+                      ))),
       ],
     );
   }
