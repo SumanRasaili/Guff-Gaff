@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:guffgaff/common/utils/utils.dart';
+import 'package:guffgaff/features/auth/controller/auth_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class UserInfoScreen extends StatefulHookConsumerWidget {
@@ -76,7 +77,15 @@ class _UserInfoScreenState extends ConsumerState<UserInfoScreen> {
                 ),
                 IconButton(
                   icon: const Icon(Icons.done),
-                  onPressed: () {},
+                  onPressed: () {
+                    String name = nameController.text.trim();
+                    if (name.isNotEmpty) {
+                      ref.read(authControllerProvider).saveUserDataToFirestore(
+                          context: context,
+                          name: name,
+                          profilePic: imageFile.value);
+                    }
+                  },
                 )
               ],
             )

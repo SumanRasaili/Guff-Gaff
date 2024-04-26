@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../config/app_colors.dart';
 import '../widgets/contacts_list.dart';
 
-class MobileLayoutScreen extends StatelessWidget {
+class MobileLayoutScreen extends ConsumerWidget {
+  static const String routeName = "/mobile-screen-layout";
+  static GoRoute route(){
+    return GoRoute(path: routeName,builder: (context, state) => MobileLayoutScreen(),);
+  }
   const MobileLayoutScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return DefaultTabController(
       length: 3,
       child: Scaffold(

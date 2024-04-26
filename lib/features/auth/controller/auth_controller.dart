@@ -1,18 +1,21 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:guffgaff/features/auth/repository/auth_repository.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 final authControllerProvider = Provider<AuthController>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
-  return AuthController(authRepository: authRepository);
+  return AuthController(ref: ref, authRepository: authRepository);
 });
 
 class AuthController {
   final AuthRepository authRepository;
-  AuthController({
-    required this.authRepository,
-  });
+  AuthController({required this.authRepository, required this.ref});
+  final ProviderRef ref;
 
   void signInWithPhone(
       {required BuildContext context, required String phoneNumber}) {
@@ -25,5 +28,11 @@ class AuthController {
       required String verificationId}) {
     authRepository.verifyOtp(
         context: context, userOtp: otp, verificationId: verificationId);
+  }
+
+  void saveUserDataToFirestore(
+      {required BuildContext context, required String name,required File? profilePic}) {
+    authRepository.saveUserDataToFirestore(
+        name: name, context: context, profilePic: profilePic, ref: ref);
   }
 }

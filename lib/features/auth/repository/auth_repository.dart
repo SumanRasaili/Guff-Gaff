@@ -13,6 +13,8 @@ import 'package:guffgaff/common/repositories/common_firebase_reposorities.dart';
 import 'package:guffgaff/common/utils/bot_toast.dart';
 import 'package:guffgaff/features/auth/screens.dart/otp_screen.dart';
 import 'package:guffgaff/features/auth/screens.dart/user_info_screen.dart';
+import 'package:guffgaff/models/user_models.dart';
+import 'package:guffgaff/screens/mobile_screen_layout.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
@@ -87,9 +89,22 @@ class AuthRepository {
             .read(commonFirebaseStorageProvider)
             .storeFileToFirebase(ref: "ProfilePic/$uid", file: profilePic);
       }
+      final user = UserModel(
+          name: name,
+          uid: uid,
+          profilePic: photoUrl,
+          isOnline: true,
+          groupId: [],
+          phoneNumber: auth.currentUser!.uid);
 
-
-      
+      await firestore
+          .collection("users")
+          .doc(uid)
+          .set(user.toMap())
+          .then((value) {
+        BotToast.closeAllLoading();
+        context.go(MobileLayoutScreen.routeName);
+      });
     } on FirebaseAuthException catch (e) {
       BotToast.closeAllLoading();
       CustomBotToast.text(e.message.toString(), isSuccess: false);
