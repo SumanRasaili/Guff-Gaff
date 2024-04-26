@@ -108,12 +108,13 @@ class ChatRepository {
         .set(message.toMap());
   }
 
-  void sendTextMessage(
+  void sendTextMessages(
       {required receiverUserId,
       required BuildContext context,
       required UserModel senderUser,
       required String text}) async {
     try {
+      print("hi in repod");
       //--users--senderid--receiverid-messages- messageid -snapshot,
       var timeSent = DateTime.now();
 
@@ -125,8 +126,8 @@ class ChatRepository {
 
 //mapping that receiver data to usermodal
       receiverUserData =
-          UserModel.fromMap(receiverUserDataMap as Map<String, dynamic>);
-      var messageId = Uuid().v1();
+          UserModel.fromMap(receiverUserDataMap.data() as Map<String, dynamic>);
+      var messageId = const Uuid().v1();
 // saving data
       _saveDataToContactsSubCollection(
           lastMessage: text,
@@ -143,7 +144,9 @@ class ChatRepository {
           messageType: MessageEnum.text,
           senderUserName: senderUser.name,
           receiverUserName: receiverUserData.name);
-    } catch (e) {
+    } on FirebaseException catch (e) {
+      print(e.toString());
+      print(e.stackTrace);
       showSnackBar(context: context, content: e.toString());
     }
   }

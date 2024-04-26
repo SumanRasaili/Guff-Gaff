@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class UserModel {
   final String name;
   final String uid;
@@ -34,5 +35,23 @@ class UserModel {
         groupId: List<String>.from(
           (map['groupId'] as List<dynamic>),
         ));
+  }
+
+  UserModel copyWith({
+    String? name,
+    String? uid,
+    String? profilePic,
+    bool? isOnline,
+    String? phoneNumber,
+    List<String>? groupId,
+  }) {
+    return UserModel(
+    name:   name ?? this.name,
+     uid:  uid ?? this.uid,
+     profilePic:  profilePic ?? this.profilePic,
+    isOnline:   isOnline ?? this.isOnline,
+     phoneNumber:  phoneNumber ?? this.phoneNumber,
+     groupId:  groupId ?? this.groupId,
+    );
   }
 }

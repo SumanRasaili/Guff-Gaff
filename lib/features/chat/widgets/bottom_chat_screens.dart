@@ -1,18 +1,32 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:guffgaff/features/chat/controller/chats_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../config/config.dart';
 
 class BottomChatField extends HookConsumerWidget {
+  final String receiverUserid;
   const BottomChatField({
     super.key,
+    required this.receiverUserid,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final messageController = useTextEditingController();
+    final messageController = useTextEditingController()..text = "Hello sir";
     final isShowSendButton = useState<bool>(false);
+
+    void sendTextMessage() async {
+      if (isShowSendButton.value) {
+        ref.read(chatControllerProvider).senTextMessage(
+            receiverUserId: receiverUserid,
+            context: context,
+            text: messageController.text.trim());
+      }
+    }
+
     return Row(
       children: [
         Expanded(
@@ -87,11 +101,14 @@ class BottomChatField extends HookConsumerWidget {
             padding: const EdgeInsets.only(bottom: 8, right: 2, left: 2),
             child: CircleAvatar(
                 radius: 25,
-                backgroundColor: tabColor,
+                backgroundColor: const Color(0xFF128C73),
                 child: isShowSendButton.value
-                    ? const Icon(
-                        Icons.send,
-                        color: Colors.white,
+                    ? GestureDetector(
+                        onTap: sendTextMessage,
+                        child: const Icon(
+                          Icons.send,
+                          color: Colors.white,
+                        ),
                       )
                     : const Icon(
                         Icons.mic,

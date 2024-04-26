@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:guffgaff/config/app_colors.dart';
-import 'package:guffgaff/features/auth/controller/auth_controller.dart';
+import 'package:guffgaff/features/chat/controller/user_data_provider.dart';
 import 'package:guffgaff/features/landing/landing_screen.dart';
 import 'package:guffgaff/screens/mobile_screen_layout.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -21,8 +21,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void initState() {
     super.initState();
 
-    ref.read(userDataAuthProvider.future).then((value) {
-      if (value != null) {
+    ref.read(userDataProvider.notifier).getUserData().then((value) {
+      if (value == null) {
         context.go(LandingScreen.routeName);
       } else {
         context.go(MobileLayoutScreen.routeName);
