@@ -1,16 +1,32 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:guffgaff/info.dart';
 
 import '../config/app_colors.dart';
 import '../widgets/chat_list.dart';
 
+class ChatScreenArguments {
+  final String name;
+  final String userId;
+  ChatScreenArguments({
+    required this.name,
+    required this.userId,
+  });
+}
+
 class MobileChatScreen extends StatelessWidget {
+  final ChatScreenArguments args;
   static const String routeName = "/mobile-chat-screen";
-  static route(){
-    return GoRoute(path: routeName,builder: (context, state) => MobileChatScreen(),);
+  static route() {
+    return GoRoute(
+      path: routeName,
+      builder: (context, state) => MobileChatScreen(
+        args: state.extra as ChatScreenArguments,
+      ),
+    );
   }
-  const MobileChatScreen({super.key});
+
+  const MobileChatScreen({required this.args, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +34,7 @@ class MobileChatScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: appBarColor,
         title: Text(
-          info[0]['name'].toString(),
+          args.name,
         ),
         centerTitle: false,
         actions: [

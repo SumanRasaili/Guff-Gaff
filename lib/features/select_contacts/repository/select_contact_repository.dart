@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -33,17 +35,16 @@ class SelectContactRepository {
       {required BuildContext context, required Contact selectedContact}) async {
     var userCollection = await firestore.collection("users").get();
     bool isUserExists = false;
-
     for (var document in userCollection.docs) {
       var userData = UserModel.fromMap(document.data());
       String selectedPhoneNo =
           selectedContact.phones[0].number.replaceAll(" ", "");
-
-      if (selectedPhoneNo == userData.phoneNumber) {
+      if (selectedPhoneNo.replaceAll("-", "") == userData.phoneNumber) {
         isUserExists = true;
-        context.push(MobileChatScreen.routeName);
+        context.push(MobileChatScreen.routeName,
+            extra:
+                ChatScreenArguments(name: userData.name, userId: userData.uid));
       }
-
       if (!isUserExists) {
         showSnackBar(
             context: context, content: "This number doesnot exist on the app");

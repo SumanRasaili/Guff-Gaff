@@ -106,7 +106,7 @@ class AuthRepository {
           profilePic: photoUrl,
           isOnline: true,
           groupId: [],
-          phoneNumber: auth.currentUser!.uid);
+          phoneNumber: auth.currentUser?.phoneNumber ?? "");
       print("Sending user data is $user");
       await firestore
           .collection("users")

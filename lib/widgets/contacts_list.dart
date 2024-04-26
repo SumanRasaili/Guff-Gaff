@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:guffgaff/config/config.dart';
 import 'package:guffgaff/info.dart';
 
@@ -19,11 +20,8 @@ class ContactsList extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const MobileChatScreen(),
-                    ),
-                  );
+                  context.push(MobileChatScreen.routeName,
+                      extra: ChatScreenArguments(name: "", userId: ""));
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
