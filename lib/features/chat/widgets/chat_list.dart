@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:guffgaff/common/widgets/loader.dart';
@@ -48,7 +49,8 @@ class ChatList extends ConsumerWidget {
               itemCount: snapshot.data?.length,
               itemBuilder: (context, index) {
                 final message = snapshot.data?[index];
-                if (messages[index]['isMe'] == true) {
+                if (message?.senderId ==
+                    FirebaseAuth.instance.currentUser?.uid) {
                   return MyMessageCard(
                     message: message?.text ?? "",
                     date: messages[index]['time'].toString(),
