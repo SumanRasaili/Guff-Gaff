@@ -33,7 +33,8 @@ class ChatList extends StatefulHookConsumerWidget {
   ConsumerState<ChatList> createState() => _ChatListState();
 }
 
-class _ChatListState extends ConsumerState<ChatList> {
+class _ChatListState extends ConsumerState<ChatList>
+    {
   @override
   Widget build(BuildContext context) {
     final ScrollController scrollController = useScrollController();

@@ -19,7 +19,7 @@ class ChatScreenArguments {
   });
 }
 
-class MobileChatScreen extends ConsumerWidget {
+class MobileChatScreen extends StatefulHookConsumerWidget {
   final ChatScreenArguments args;
   static const String routeName = "/mobile-chat-screen";
   static route() {
@@ -34,15 +34,38 @@ class MobileChatScreen extends ConsumerWidget {
   const MobileChatScreen({required this.args, super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    print("REceiver user id is ${args.userId}");
+  ConsumerState<MobileChatScreen> createState() => _MobileChatScreenState();
+}
+
+class _MobileChatScreenState extends ConsumerState<MobileChatScreen>
+    with WidgetsBindingObserver {
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    switch (state) {
+      case AppLifecycleState.resumed:
+        ref.read(authControllerProvider).setUserOnlineStatus(isOnline: true);
+        break;
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.detached:
+      case AppLifecycleState.hidden:
+      case AppLifecycleState.paused:
+        ref.read(authControllerProvider).setUserOnlineStatus(isOnline: false);
+
+        break;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appBarColor,
         title: StreamBuilder<UserModel>(
             stream: ref
                 .read(authControllerProvider)
-                .getUserDataById(userId: args.userId),
+                .getUserDataById(userId: widget.args.userId),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Loader();
@@ -51,7 +74,7 @@ class MobileChatScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    args.name,
+                    widget.args.name,
                   ),
                   Text(
                     snapshot.data!.isOnline ? "Online" : "Offline",
@@ -80,9 +103,10 @@ class MobileChatScreen extends ConsumerWidget {
       body: Column(
         children: [
           Expanded(
-              child: ChatList(args: ChatArgs(receiverUserId: args.userId))),
+              child:
+                  ChatList(args: ChatArgs(receiverUserId: widget.args.userId))),
           BottomChatField(
-            receiverUserid: args.userId,
+            receiverUserid: widget.args.userId,
           ),
         ],
       ),
