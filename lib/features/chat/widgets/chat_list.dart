@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:guffgaff/common/widgets/loader.dart';
 import 'package:guffgaff/features/chat/controller/chats_controller.dart';
 import 'package:guffgaff/info.dart';
 import 'package:guffgaff/models/messages.dart';
@@ -32,21 +33,34 @@ class ChatList extends ConsumerWidget {
             .read(chatControllerProvider)
             .getMessages(receiverId: args.receiverUserId),
         builder: (context, snapshot) {
-          return ListView.builder(
-            itemCount: messages.length,
-            itemBuilder: (context, index) {
-              if (messages[index]['isMe'] == true) {
-                return MyMessageCard(
-                  message: messages[index]['text'].toString(),
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Loader();
+          } else if (!snapshot.hasData) {
+            return const Center(
+              child: Text("No data Found"),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text("Error Occured ${snapshot.error}"),
+            );
+          } else {
+            return ListView.builder(
+              itemCount: snapshot.data?.length,
+              itemBuilder: (context, index) {
+                final message = snapshot.data?[index];
+                if (messages[index]['isMe'] == true) {
+                  return MyMessageCard(
+                    message: message?.text ?? "",
+                    date: messages[index]['time'].toString(),
+                  );
+                }
+                return SenderMessageCard(
+                  message: message?.text ?? "",
                   date: messages[index]['time'].toString(),
                 );
-              }
-              return SenderMessageCard(
-                message: messages[index]['text'].toString(),
-                date: messages[index]['time'].toString(),
-              );
-            },
-          );
+              },
+            );
+          }
         });
   }
 }
