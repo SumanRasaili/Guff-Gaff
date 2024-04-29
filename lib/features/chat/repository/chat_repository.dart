@@ -31,10 +31,25 @@ class ChatRepository {
         .doc(auth.currentUser!.uid)
         .collection("chats")
         .snapshots()
-        .asyncMap((event) {
+        .asyncMap((event) async {
       List<ChatContactsModel> chats = [];
       for (var documents in event.docs) {
-        chats.add(ChatContactsModel.fromMap(documents.data()));
+        var chatContacts = ChatContactsModel.fromMap(documents.data());
+
+//here we are getting the userData according to userid which is associated with chatContacts
+        var userData = await firebaseFirestore
+            .collection("users")
+            .doc(chatContacts.contactId)
+            .get();
+
+        var user = UserModel.fromMap(userData.data() as Map<String, dynamic>);
+        //we cant get the name from chat contact so we neeed to get user and assign from there //
+        chats.add(ChatContactsModel(
+            name: user.name,
+            profilePic: user.profilePic,
+            contactId: chatContacts.contactId,
+            lastMessage: chatContacts.lastMessage,
+            sentTime: chatContacts.sentTime));
       }
       return chats;
     });
