@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:guffgaff/common/widgets/loader.dart';
 import 'package:guffgaff/features/chat/controller/chats_controller.dart';
@@ -13,7 +15,7 @@ class ChatArgs {
   ChatArgs({required this.receiverUserId});
 }
 
-class ChatList extends ConsumerWidget {
+class ChatList extends StatefulHookConsumerWidget {
   final ChatArgs args;
   static const String routeName = "/chat-list-page";
   static GoRoute route() {
@@ -28,11 +30,17 @@ class ChatList extends ConsumerWidget {
   const ChatList({required this.args, super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ChatList> createState() => _ChatListState();
+}
+
+class _ChatListState extends ConsumerState<ChatList> {
+  @override
+  Widget build(BuildContext context) {
+    final ScrollController scrollController = useScrollController();
     return StreamBuilder<List<Message>>(
         stream: ref
             .read(chatControllerProvider)
-            .getMessages(receiverId: args.receiverUserId),
+            .getMessages(receiverId: widget.args.receiverUserId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Loader();
@@ -45,7 +53,13 @@ class ChatList extends ConsumerWidget {
               child: Text("Error Occured ${snapshot.error}"),
             );
           } else {
+//this for automatically scroll the page to last if user types some messages
+            SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+              scrollController
+                  .jumpTo(scrollController.position.maxScrollExtent);
+            });
             return ListView.builder(
+              controller: scrollController,
               itemCount: snapshot.data?.length,
               itemBuilder: (context, index) {
                 final message = snapshot.data?[index];
