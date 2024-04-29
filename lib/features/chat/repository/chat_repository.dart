@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -226,61 +228,64 @@ class ChatRepository {
       required ProviderRef ref,
       required UserModel senderUserData}) async {
     //store file to the firebase storage and cloud firestore
-
-    var timeSent;
-    var messageId = Uuid().v1();
+    try {
+      var timeSent;
+      var messageId = const Uuid().v1();
 //in firebase storage\
-    String imageUrl = await ref
-        .read(commonFirebaseStorageProvider)
-        .storeFileToFirebase(
-            ref:
-                "chat/${messageEnum.type}/${senderUserData.uid}/$receiverUserId/$messageId",
-            file: file);
+      String imageUrl = await ref
+          .read(commonFirebaseStorageProvider)
+          .storeFileToFirebase(
+              ref:
+                  "chat/${messageEnum.type}/${senderUserData.uid}/$receiverUserId/$messageId",
+              file: file);
 
-    //to get receiver user data
-    UserModel receiverUserData;
+      //to get receiver user data
+      UserModel receiverUserData;
 
-    final userDataMap =
-        await firebaseFirestore.collection("users").doc(receiverUserId).get();
+      final userDataMap =
+          await firebaseFirestore.collection("users").doc(receiverUserId).get();
 
-    receiverUserData = UserModel.fromMap(userDataMap as Map<String, dynamic>);
+      receiverUserData = UserModel.fromMap(userDataMap as Map<String, dynamic>);
 
-    var contactmsg;
-    switch (messageEnum) {
-      case MessageEnum.image:
-        contactmsg = " Photo";
-        break;
+      String contactmsg;
+      switch (messageEnum) {
+        case MessageEnum.image:
+          contactmsg = " Photo";
+          break;
 
-      case MessageEnum.audio:
-        contactmsg = " Audio";
-        break;
+        case MessageEnum.audio:
+          contactmsg = " Audio";
+          break;
 
-      case MessageEnum.video:
-        contactmsg = " Video";
-        break;
+        case MessageEnum.video:
+          contactmsg = " Video";
+          break;
 
-      case MessageEnum.gif:
-        contactmsg = " GIF";
-        break;
+        case MessageEnum.gif:
+          contactmsg = " GIF";
+          break;
 
-      default:
-        contactmsg = " GIF";
-    }
+        default:
+          contactmsg = " GIF";
+      }
 // to save the type of message in string as in lastmsg key
-    _saveDataToContactsSubCollection(
-        lastMessage: contactmsg,
-        senderUserData: senderUserData,
-        receiverUserData: receiverUserData,
-        timeSent: timeSent,
-        receiverUserId: receiverUserId);
-        //here to store the exact message which is the imageUrl
-    _saveMessageToMessageSubCollection(
-        receiverUserId: receiverUserId,
-        text: imageUrl,
-        timeSent: timeSent,
-        messageId: messageId,
-        senderUserName: senderUserData.name,
-        messageType: messageEnum,
-        receiverUserName: receiverUserData.name);
+      _saveDataToContactsSubCollection(
+          lastMessage: contactmsg,
+          senderUserData: senderUserData,
+          receiverUserData: receiverUserData,
+          timeSent: timeSent,
+          receiverUserId: receiverUserId);
+      //here to store the exact message which is the imageUrl
+      _saveMessageToMessageSubCollection(
+          receiverUserId: receiverUserId,
+          text: imageUrl,
+          timeSent: timeSent,
+          messageId: messageId,
+          senderUserName: senderUserData.name,
+          messageType: messageEnum,
+          receiverUserName: receiverUserData.name);
+    } catch (e) {
+      showSnackBar(context: context, content: e.toString());
+    }
   }
 }
