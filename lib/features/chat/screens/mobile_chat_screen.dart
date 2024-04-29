@@ -35,6 +35,7 @@ class MobileChatScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print("REceiver user id is ${args.userId}");
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appBarColor,

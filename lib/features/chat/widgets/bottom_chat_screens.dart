@@ -24,6 +24,8 @@ class BottomChatField extends HookConsumerWidget {
             receiverUserId: receiverUserid,
             context: context,
             text: messageController.text.trim());
+            messageController.text="";
+            isShowSendButton.value=false;
       }
     }
 
@@ -103,7 +105,7 @@ class BottomChatField extends HookConsumerWidget {
                 radius: 25,
                 backgroundColor: const Color(0xFF128C73),
                 child: isShowSendButton.value
-                    ? GestureDetector(
+                    ? GestureDetector( 
                         onTap: sendTextMessage,
                         child: const Icon(
                           Icons.send,

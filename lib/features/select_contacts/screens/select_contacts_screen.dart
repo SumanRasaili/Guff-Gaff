@@ -41,6 +41,7 @@ class SelectContactsScreen extends ConsumerWidget {
               itemCount: contactList.length,
               itemBuilder: (context, index) {
                 final contact = contactList[index];
+                print("Contact is ${contact}");
 
                 return InkWell(
                   onTap: () {

@@ -31,14 +31,19 @@ class ChatRepository {
       required UserModel receiverUserData,
       required DateTime timeSent,
       required String receiverUserId}) async {
-//collection is like this for receiver as there are two things while in main page one and in chatscreen to send another
+// we have chats in main page and another in inside message typing screen..
+//1. In mainpage as we r sendiong the message and receiver will listen to message.
+// 2. But if we r logged in and in main tab chats screen we also
+// have to listen the message so we need to make two collection for one is for the sender
+//and one for the receiver
 
-//--users-receiver-id--> chats-> sender-id-> messages
+//1. in case of receiver we make collection as like that
+//--users-->receiver-id--> chats--> sender_id--> chats stored
 
     var receiverChatContact = ChatContactsModel(
         name: senderUserData.name,
         profilePic: senderUserData.profilePic,
-        contactId: receiverUserId,
+        contactId: senderUserData.uid,
         lastMessage: lastMessage,
         sentTime: timeSent);
 
@@ -47,24 +52,28 @@ class ChatRepository {
         .doc(receiverUserId)
         .collection("chats")
         .doc(auth.currentUser?.uid)
-        .set(receiverChatContact.toMap());
+        .set(receiverChatContact.toMap())
+        .then((value) => print("contact data collection of receiver saved"));
 
 //---------collection for sender
 
-//--users--sender_id--chats--receiver-id--> messages
+//in case of sender
+//users-->sender_id--?chats--?receiver_id--> chats message
+
     var senderChatContact = ChatContactsModel(
         name: receiverUserData.name,
         profilePic: receiverUserData.profilePic,
-        contactId: senderUserData.uid,
+        contactId: receiverUserData.uid, //it is of sending user
         lastMessage: lastMessage,
         sentTime: timeSent);
 
     await firebaseFirestore
         .collection("users")
-        .doc(senderUserData.uid)
+        .doc(auth.currentUser?.uid)
         .collection("chats")
         .doc(receiverUserId)
-        .set(senderChatContact.toMap());
+        .set(senderChatContact.toMap())
+        .then((value) => print("contact data collection for sender finished"));
   }
 
 //to save message to message sub collection
@@ -87,14 +96,16 @@ class ChatRepository {
 
 //by sender
     //--> users -- receiverid-messages-messageid-senderid-messages
+    print("message to message data collection started");
     await firebaseFirestore
         .collection("users")
         .doc(auth.currentUser?.uid)
         .collection("chats")
-        .doc(messageId)
-        .collection("messages")
         .doc(receiverUserId)
+        .collection("messages")
+        .doc(messageId)
         .set(message.toMap());
+
     //by receiver sent message
 
     //--> users--senderid--messages-messageid-receiverid-messages
@@ -102,10 +113,11 @@ class ChatRepository {
         .collection("users")
         .doc(receiverUserId)
         .collection("chats")
-        .doc(messageId)
-        .collection("messages")
         .doc(auth.currentUser?.uid)
+        .collection("messages")
+        .doc(messageId)
         .set(message.toMap());
+    print("message to message data collection finished");
   }
 
   void sendTextMessages(
@@ -114,7 +126,6 @@ class ChatRepository {
       required UserModel senderUser,
       required String text}) async {
     try {
-      print("hi in repod");
       //--users--senderid--receiverid-messages- messageid -snapshot,
       var timeSent = DateTime.now();
 
@@ -124,11 +135,12 @@ class ChatRepository {
       var receiverUserDataMap =
           await firebaseFirestore.collection("users").doc(receiverUserId).get();
 
-//mapping that receiver data to usermodal
+//decoding that receiver data to usermodal
       receiverUserData =
           UserModel.fromMap(receiverUserDataMap.data() as Map<String, dynamic>);
       var messageId = const Uuid().v1();
 // saving data
+
       _saveDataToContactsSubCollection(
           lastMessage: text,
           senderUserData: senderUser,
@@ -144,6 +156,8 @@ class ChatRepository {
           messageType: MessageEnum.text,
           senderUserName: senderUser.name,
           receiverUserName: receiverUserData.name);
+
+      print("message to message data collection finished");
     } on FirebaseException catch (e) {
       print(e.toString());
       print(e.stackTrace);

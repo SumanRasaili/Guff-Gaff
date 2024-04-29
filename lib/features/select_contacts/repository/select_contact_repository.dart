@@ -37,10 +37,13 @@ class SelectContactRepository {
     bool isUserExists = false;
     for (var document in userCollection.docs) {
       var userData = UserModel.fromMap(document.data());
+      // print("userData uid is ${userData.uid}");
+      // print("userData phone no  is ${userData.phoneNumber}");
       String selectedPhoneNo =
           selectedContact.phones[0].number.replaceAll(" ", "");
       if (selectedPhoneNo.replaceAll("-", "") == userData.phoneNumber) {
         isUserExists = true;
+        selectedPhoneNo = "";
         context.push(MobileChatScreen.routeName,
             extra:
                 ChatScreenArguments(name: userData.name, userId: userData.uid));

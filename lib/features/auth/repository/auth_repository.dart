@@ -92,12 +92,15 @@ class AuthRepository {
     try {
       CustomBotToast.loading();
       String uid = auth.currentUser!.uid;
-      String photoUrl =
-          'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60';
-      if (profilePic != null) {
+      String? photoUrl;
+
+      if (profilePic != null || profilePic!.existsSync()) {
         photoUrl = await ref
             .read(commonFirebaseStorageProvider)
             .storeFileToFirebase(ref: "ProfilePic/$uid", file: profilePic);
+      } else {
+        photoUrl =
+            'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60';
       }
       final user = UserModel(
           name: name,
