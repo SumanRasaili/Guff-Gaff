@@ -15,7 +15,7 @@ class BottomChatField extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final messageController = useTextEditingController()..text = "Hello sir";
+    final messageController = useTextEditingController();
     final isShowSendButton = useState<bool>(false);
 
     void sendTextMessage() async {
@@ -24,8 +24,9 @@ class BottomChatField extends HookConsumerWidget {
             receiverUserId: receiverUserid,
             context: context,
             text: messageController.text.trim());
-            messageController.text="";
-            isShowSendButton.value=false;
+        messageController.text = "";
+        messageController.clear();
+        isShowSendButton.value = false;
       }
     }
 
@@ -105,7 +106,7 @@ class BottomChatField extends HookConsumerWidget {
                 radius: 25,
                 backgroundColor: const Color(0xFF128C73),
                 child: isShowSendButton.value
-                    ? GestureDetector( 
+                    ? GestureDetector(
                         onTap: sendTextMessage,
                         child: const Icon(
                           Icons.send,
