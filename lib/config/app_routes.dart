@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:guffgaff/common/widgets/error_screen.dart';
 import 'package:guffgaff/features/auth/screens.dart/login_screen.dart';
 import 'package:guffgaff/features/auth/screens.dart/otp_screen.dart';
+import 'package:guffgaff/features/chat/widgets/chat_list.dart';
 import 'package:guffgaff/features/landing/landing_screen.dart';
 import 'package:guffgaff/features/select_contacts/screens/select_contacts_screen.dart';
 import 'package:guffgaff/screens/screens.dart';
@@ -26,7 +27,8 @@ class AppRoutes {
       UserInfoScreen.route(),
       MobileLayoutScreen.route(),
       SelectContactsScreen.route(),
-      MobileChatScreen.route()
+      MobileChatScreen.route(),
+      ChatList.route(),
     ],
     // redirect: (context, state) {
 

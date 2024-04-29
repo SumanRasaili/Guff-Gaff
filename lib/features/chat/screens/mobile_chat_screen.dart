@@ -8,7 +8,7 @@ import 'package:guffgaff/models/user_models.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../config/app_colors.dart';
-import '../../../widgets/chat_list.dart';
+import '../widgets/chat_list.dart';
 
 class ChatScreenArguments {
   final String name;
@@ -79,9 +79,8 @@ class MobileChatScreen extends ConsumerWidget {
       ),
       body: Column(
         children: [
-          const Expanded(
-            child: ChatList(),
-          ),
+          Expanded(
+              child: ChatList(args: ChatArgs(receiverUserId: args.userId))),
           BottomChatField(
             receiverUserid: args.userId,
           ),

@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:guffgaff/features/chat/controller/user_data_provider.dart';
 import 'package:guffgaff/features/chat/repository/chat_repository.dart';
+import 'package:guffgaff/models/chat_contact_model.dart';
+import 'package:guffgaff/models/messages.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final chatControllerProvider = Provider<ChatController>((ref) {
@@ -30,5 +32,13 @@ class ChatController {
         context: context,
         senderUser: userData!,
         text: text);
+  }
+
+  Stream<List<ChatContactsModel>> getChatContacts() {
+    return chatrepository.getChatContacts();
+  }
+
+  Stream<List<Message>> getMessages({required String receiverId}) {
+    return chatrepository.getMessages(receiverUserId: receiverId);
   }
 }

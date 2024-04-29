@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:guffgaff/features/chat/widgets/chat_list.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../config/app_colors.dart';
 import '../widgets/widgets.dart';
 
-class WebLayoutScreen extends StatelessWidget {
+class WebLayoutScreen extends ConsumerWidget {
   const WebLayoutScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -40,8 +42,8 @@ class WebLayoutScreen extends StatelessWidget {
               children: [
                 const ChatAppBar(),
                 const SizedBox(height: 20),
-                const Expanded(
-                  child: ChatList(),
+                 Expanded(
+                  child: ChatList(args:ChatArgs(receiverUserId: "") ,),
                 ),
                 Container(
                   height: MediaQuery.of(context).size.height * 0.07,

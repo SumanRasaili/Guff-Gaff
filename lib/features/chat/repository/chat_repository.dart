@@ -55,6 +55,23 @@ class ChatRepository {
     });
   }
 
+  Stream<List<Message>> getMessages({required String receiverUserId}) {
+    return firebaseFirestore
+        .collection("users")
+        .doc(auth.currentUser!.uid)
+        .collection("chats")
+        .doc(receiverUserId)
+        .collection("messages")
+        .snapshots()
+        .map((event) {
+      List<Message> messages = [];
+      for (var document in event.docs) {
+        messages.add(Message.fromMap(document.data()));
+      }
+      return messages;
+    });
+  }
+
 //this is for saving the data for listing to chat screen in mainpage
   _saveDataToContactsSubCollection(
       {required String lastMessage,

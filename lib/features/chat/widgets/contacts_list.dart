@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:guffgaff/common/widgets/loader.dart';
 import 'package:guffgaff/config/config.dart';
+import 'package:guffgaff/features/chat/controller/chats_controller.dart';
 import 'package:guffgaff/features/chat/repository/chat_repository.dart';
 import 'package:guffgaff/models/chat_contact_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import '../screens/screens.dart';
+import '../../../screens/screens.dart';
 
 class ContactsList extends ConsumerWidget {
   const ContactsList({super.key});
@@ -17,7 +18,7 @@ class ContactsList extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
       child: StreamBuilder<List<ChatContactsModel>>(
-          stream: ref.read(chatRepositoryProvider).getChatContacts(),
+          stream: ref.read(chatControllerProvider).getChatContacts(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Loader();
