@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, use_build_context_synchronously
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +22,23 @@ class ChatRepository {
     required this.firebaseFirestore,
     required this.auth,
   });
+
+//to get chat contacts in main poage tab
+
+  Stream<List<ChatContactsModel>> getChatContacts() {
+    return firebaseFirestore
+        .collection("users")
+        .doc(auth.currentUser!.uid)
+        .collection("chats")
+        .snapshots()
+        .asyncMap((event) {
+      List<ChatContactsModel> chats = [];
+      for (var documents in event.docs) {
+        chats.add(ChatContactsModel.fromMap(documents.data()));
+      }
+      return chats;
+    });
+  }
 
 //this is for saving the data for listing to chat screen in mainpage
   _saveDataToContactsSubCollection(
