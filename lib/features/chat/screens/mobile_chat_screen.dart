@@ -37,36 +37,8 @@ class MobileChatScreen extends StatefulHookConsumerWidget {
   ConsumerState<MobileChatScreen> createState() => _MobileChatScreenState();
 }
 
-class _MobileChatScreenState extends ConsumerState<MobileChatScreen>
-    with WidgetsBindingObserver {
-
-
-      @override
-  void initState() {
-    WidgetsBinding.instance.addObserver(this);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-  WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    switch (state) {
-      case AppLifecycleState.resumed:
-        ref.read(authControllerProvider).setUserOnlineStatus(isOnline: true);
-        break;
-      case AppLifecycleState.inactive:
-      case AppLifecycleState.detached:
-      case AppLifecycleState.hidden:
-      case AppLifecycleState.paused:
-        ref.read(authControllerProvider).setUserOnlineStatus(isOnline: false);
-        break;
-    }
-  }
+class _MobileChatScreenState extends ConsumerState<MobileChatScreen>{
+ 
 
   @override
   Widget build(BuildContext context) {
