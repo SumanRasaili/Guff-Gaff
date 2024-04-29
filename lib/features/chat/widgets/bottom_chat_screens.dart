@@ -1,6 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:guffgaff/common/enum/message_enums.dart';
+import 'package:guffgaff/common/utils/utils.dart';
 import 'package:guffgaff/features/chat/controller/chats_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -17,6 +21,22 @@ class BottomChatField extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final messageController = useTextEditingController();
     final isShowSendButton = useState<bool>(false);
+
+    void sendFileMessage({required File file, required MessageEnum msgEnum}) {
+      ref.read(chatControllerProvider).sendFileMessage(
+            receiverUserId: receiverUserid,
+            context: context,
+            file: file,
+            messageEnum: msgEnum,
+          );
+    }
+
+    void pickImage() async {
+      File? image = await pickImageFromGallery(context: context);
+      if (image != null) {
+        sendFileMessage(file: image, msgEnum: MessageEnum.image);
+      }
+    }
 
     void sendTextMessage() async {
       if (isShowSendButton.value) {
@@ -73,7 +93,7 @@ class BottomChatField extends HookConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     IconButton(
-                        onPressed: () {},
+                        onPressed: pickImage,
                         icon: const Icon(
                           Icons.camera_alt,
                           color: Colors.grey,

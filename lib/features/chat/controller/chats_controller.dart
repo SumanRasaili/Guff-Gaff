@@ -37,12 +37,12 @@ class ChatController {
         text: text);
   }
 
-  void sendFileMessage(
-      {required receiverUserId,
-      required BuildContext context,
-      required File file,
-      required MessageEnum messageEnum,
-      required String text}) {
+  void sendFileMessage({
+    required receiverUserId,
+    required BuildContext context,
+    required File file,
+    required MessageEnum messageEnum,
+  }) {
     print("hello in controller");
     final userData = ref.read(userDataProvider);
     print("User id is ${userData?.uid}");

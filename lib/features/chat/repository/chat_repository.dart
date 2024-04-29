@@ -229,7 +229,7 @@ class ChatRepository {
       required UserModel senderUserData}) async {
     //store file to the firebase storage and cloud firestore
     try {
-      var timeSent;
+      var timeSent = DateTime.now();
       var messageId = const Uuid().v1();
 //in firebase storage\
       String imageUrl = await ref
@@ -245,7 +245,8 @@ class ChatRepository {
       final userDataMap =
           await firebaseFirestore.collection("users").doc(receiverUserId).get();
 
-      receiverUserData = UserModel.fromMap(userDataMap as Map<String, dynamic>);
+      receiverUserData =
+          UserModel.fromMap(userDataMap.data() as Map<String, dynamic>);
 
       String contactmsg;
       switch (messageEnum) {
