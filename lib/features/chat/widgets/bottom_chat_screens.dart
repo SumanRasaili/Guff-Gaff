@@ -38,6 +38,13 @@ class BottomChatField extends HookConsumerWidget {
       }
     }
 
+    void pickVideo() async {
+      File? video = await pickVideoFromGallery(context: context);
+      if (video != null) {
+        sendFileMessage(file: video, msgEnum: MessageEnum.video);
+      }
+    }
+
     void sendTextMessage() async {
       if (isShowSendButton.value) {
         ref.read(chatControllerProvider).senTextMessage(
@@ -99,7 +106,7 @@ class BottomChatField extends HookConsumerWidget {
                           color: Colors.grey,
                         )),
                     IconButton(
-                        onPressed: () {},
+                        onPressed: pickVideo,
                         icon: const Icon(
                           Icons.attach_file,
                           color: Colors.grey,

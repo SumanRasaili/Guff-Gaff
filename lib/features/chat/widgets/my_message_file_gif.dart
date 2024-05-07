@@ -2,6 +2,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:guffgaff/common/enum/message_enums.dart';
+import 'package:guffgaff/features/chat/widgets/video_player_widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MessageFileShowWidget extends ConsumerWidget {
@@ -22,6 +23,10 @@ class MessageFileShowWidget extends ConsumerWidget {
               fontSize: 16,
             ),
           )
-        : CachedNetworkImage(imageUrl: message);
+        : type == MessageEnum.video
+            ? VideoPlayerWidget(
+                videoData: message,
+              )
+            : CachedNetworkImage(imageUrl: message);
   }
 }
