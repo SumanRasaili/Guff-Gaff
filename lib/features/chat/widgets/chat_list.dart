@@ -73,6 +73,7 @@ class _ChatListState extends ConsumerState<ChatList> {
                   );
                 }
                 return SenderMessageCard(
+                  type: message.messageEnumType,
                   message: message.text,
                   date: timeSent,
                 );
