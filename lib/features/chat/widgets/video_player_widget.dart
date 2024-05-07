@@ -39,7 +39,9 @@ class _VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget> {
                   videoPlayerController.play();
                 }
               },
-              icon: const Icon(Icons.play_arrow)),
+              icon: isPlay.value
+                  ? const Icon(Icons.pause_circle)
+                  : const Icon(Icons.play_circle)),
         )
       ]),
     );
