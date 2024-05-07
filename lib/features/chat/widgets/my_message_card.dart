@@ -1,12 +1,21 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:guffgaff/common/enum/message_enums.dart';
+import 'package:guffgaff/features/chat/widgets/my_message_file_gif.dart';
 
 import '../../../config/config.dart';
 
 class MyMessageCard extends StatelessWidget {
   final String message;
   final String date;
+  final MessageEnum type;
 
-  const MyMessageCard({Key? key, required this.message, required this.date}) : super(key: key);
+  const MyMessageCard({
+    super.key,
+    required this.message,
+    required this.date,
+    required this.type,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,19 +33,13 @@ class MyMessageCard extends StatelessWidget {
           child: Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.only(
-                  left: 10,
-                  right: 30,
-                  top: 5,
-                  bottom: 20,
-                ),
-                child: Text(
-                  message,
-                  style: const TextStyle(
-                    fontSize: 16,
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    right: 30,
+                    top: 5,
+                    bottom: 20,
                   ),
-                ),
-              ),
+                  child: MessageFileShowWidget(message: message, type: type)),
               Positioned(
                 bottom: 4,
                 right: 10,
@@ -44,7 +47,7 @@ class MyMessageCard extends StatelessWidget {
                   children: [
                     Text(
                       date,
-                      style:const TextStyle(
+                      style: const TextStyle(
                         fontSize: 13,
                         color: Colors.white60,
                       ),

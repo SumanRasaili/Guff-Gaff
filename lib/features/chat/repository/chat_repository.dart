@@ -251,23 +251,23 @@ class ChatRepository {
       String contactmsg;
       switch (messageEnum) {
         case MessageEnum.image:
-          contactmsg = " Photo";
+          contactmsg = "📸 Photo";
           break;
 
         case MessageEnum.audio:
-          contactmsg = " Audio";
+          contactmsg = "🔉 Audio";
           break;
 
         case MessageEnum.video:
-          contactmsg = " Video";
+          contactmsg = "📽️ Video";
           break;
 
         case MessageEnum.gif:
-          contactmsg = " GIF";
+          contactmsg = "🎁 GIF";
           break;
 
         default:
-          contactmsg = " GIF";
+          contactmsg = "🎁 GIF";
       }
 // to save the type of message in string as in lastmsg key
       _saveDataToContactsSubCollection(

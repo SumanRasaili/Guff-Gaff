@@ -5,10 +5,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:guffgaff/common/widgets/loader.dart';
 import 'package:guffgaff/features/chat/controller/chats_controller.dart';
-import 'package:guffgaff/info.dart';
 import 'package:guffgaff/models/messages.dart';
 import 'package:guffgaff/widgets/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class ChatArgs {
   final String receiverUserId;
@@ -33,8 +33,7 @@ class ChatList extends StatefulHookConsumerWidget {
   ConsumerState<ChatList> createState() => _ChatListState();
 }
 
-class _ChatListState extends ConsumerState<ChatList>
-    {
+class _ChatListState extends ConsumerState<ChatList> {
   @override
   Widget build(BuildContext context) {
     final ScrollController scrollController = useScrollController();
@@ -63,17 +62,19 @@ class _ChatListState extends ConsumerState<ChatList>
               controller: scrollController,
               itemCount: snapshot.data?.length,
               itemBuilder: (context, index) {
-                final message = snapshot.data?[index];
-                if (message?.senderId ==
+                final message = snapshot.data![index];
+                String timeSent = DateFormat.Hm().format(message.timeSent);
+                if (message.senderId ==
                     FirebaseAuth.instance.currentUser?.uid) {
                   return MyMessageCard(
-                    message: message?.text ?? "",
-                    date: messages[index]['time'].toString(),
+                    type: message.messageEnumType,
+                    message: message.text,
+                    date: timeSent,
                   );
                 }
                 return SenderMessageCard(
-                  message: message?.text ?? "",
-                  date: messages[index]['time'].toString(),
+                  message: message.text,
+                  date: timeSent,
                 );
               },
             );
