@@ -88,7 +88,6 @@ class BottomChatField extends HookConsumerWidget {
       }
     }
 
-
     return Column(
       children: [
         Row(
