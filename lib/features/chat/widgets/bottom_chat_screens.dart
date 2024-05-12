@@ -65,13 +65,12 @@ class BottomChatField extends HookConsumerWidget {
       isShowEmojiContainer.value = false;
     }
 
+//to toggle emoji keyboard and text keyboard
     void toggleEmojiContainer() {
       if (isShowEmojiContainer.value) {
-        print("first case for true");
         showKeyboard();
         hideEmojiContainer();
       } else {
-        print("second case for false");
         hideKeyboard();
         showEmojiContainer();
       }
@@ -89,7 +88,6 @@ class BottomChatField extends HookConsumerWidget {
       }
     }
 
-    print("emoji container value is ${isShowEmojiContainer.value}");
 
     return Column(
       children: [
