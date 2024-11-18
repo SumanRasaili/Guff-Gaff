@@ -11,7 +11,7 @@ final chatControllerProvider = Provider<ChatController>((ref) {
 
 class ChatController {
   final ChatRepository chatrepository;
-  final ProviderRef ref;
+  final Ref ref;
   ChatController({
     required this.chatrepository,
     required this.ref,

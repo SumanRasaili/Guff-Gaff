@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:guffgaff/features/auth/repository/auth_repository.dart';
 import 'package:guffgaff/models/user_models.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 final authControllerProvider = Provider<AuthController>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
@@ -21,7 +20,7 @@ final userDataAuthProvider = FutureProvider<UserModel?>((ref) async {
 class AuthController {
   final AuthRepository authRepository;
   AuthController({required this.authRepository, required this.ref});
-  final ProviderRef ref;
+  final Ref ref;
 
   Future<UserModel?> getUserData() async {
     UserModel? user = await authRepository.getCurrentUserData();

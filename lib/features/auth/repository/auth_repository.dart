@@ -15,7 +15,7 @@ import 'package:guffgaff/features/auth/screens.dart/otp_screen.dart';
 import 'package:guffgaff/features/auth/screens.dart/user_info_screen.dart';
 import 'package:guffgaff/models/user_models.dart';
 import 'package:guffgaff/screens/mobile_screen_layout.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepository(
@@ -88,7 +88,7 @@ class AuthRepository {
       {required String name,
       required BuildContext context,
       required File? profilePic,
-      required ProviderRef ref}) async {
+      required Ref ref}) async {
     try {
       CustomBotToast.loading();
       String uid = auth.currentUser!.uid;
